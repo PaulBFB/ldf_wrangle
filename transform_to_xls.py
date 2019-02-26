@@ -1,4 +1,4 @@
-#!~/PycharmProjects/ldf_wrangle/venv/bin/python3.6
+#!/usr/bin/env python3
 import os
 from simpledbf import Dbf5
 import datetime as dt
