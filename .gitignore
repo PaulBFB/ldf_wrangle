@@ -1,3 +1,9 @@
+# Project-level cases: i/o dbf-->csf/xls files
+*.csv
+*.dbf
+*.xls
+*.xlsx
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
