@@ -1,6 +1,5 @@
-#!~/PycharmProjects/ldf_wrangle/venv/bin/python3
+#!~/PycharmProjects/ldf_wrangle/venv/bin/python3.6
 import os
-import pandas as pd
 from simpledbf import Dbf5
 import datetime as dt
 from weekday_count import weekday_count
@@ -43,12 +42,13 @@ files.sort()
 for i in set_dict.keys():
     dbf_file = Dbf5(i)
     set_dataframe = dbf_file.to_dataframe()
+    set_dataframe.rename(columns={'count': 'Original'}, inplace=True)
     divisor = sum([w_count.get(j) for j in set_dict.get(i)])
-    set_dataframe['Original'] = set_dataframe['count'] / divisor
-    set_dataframe.to_excel('auto_output - {sourcefile} - {start} - to - {end}.xls'.format(sourcefile=i[:-4],
+    set_dataframe['count'] = set_dataframe['Original'] / divisor
+    set_dataframe.to_excel('auto_output - {sourcefile} - {start} - to - {end}.xlsx'.format(sourcefile=i[:-4],
                                                                                           start=str(start_date),
                                                                                           end=str(end_date)),
                            index=False,
-                           columns=['Id', 'Original'])
+                           columns=['Id', 'Original', 'count'])
 
 print('printed {n_files} successfully. exiting.'.format(n_files=len(files)))
