@@ -14,7 +14,6 @@ prompt = 'X'
 while prompt not in ['y', 'Y', 'n', 'N']:
     print('default dates currently set to from:{start} to:{end}'.format(start=start_date, end=end_date))
     prompt = input('change start/end date? y/n: ')
-    print('invalid choice - enter y/n')
 
 if prompt=='y' or prompt=='Y':
     start_date_year = int(input('enter start date year (INTEGER)'))
@@ -42,19 +41,14 @@ files = list(filter(lambda x: x in set_dict.keys(), os.listdir()))
 files.sort()
 
 for i in set_dict.keys():
-    print(i)
     dbf_file = Dbf5(i)
     set_dataframe = dbf_file.to_dataframe()
     divisor = sum([w_count.get(j) for j in set_dict.get(i)])
     set_dataframe['Original'] = set_dataframe['count'] / divisor
-    print('division successfull - outputting as xslx')
-#    print(set_dataframe.head())
-#    print(type(set_dataframe))
-    set_dataframe.to_excel('auto_output_{sourcefile}_{start}_to_{end}.xls'.format(sourcefile=i[:-4],
-                                                                                  start=str(start_date),
-                                                                                  end=str(end_date)),
+    set_dataframe.to_excel('auto_output - {sourcefile} - {start} - to - {end}.xls'.format(sourcefile=i[:-4],
+                                                                                          start=str(start_date),
+                                                                                          end=str(end_date)),
                            index=False,
                            columns=['Id', 'Original'])
-    print('success')
 
 print('printed {n_files} successfully. exiting.'.format(n_files=len(files)))
