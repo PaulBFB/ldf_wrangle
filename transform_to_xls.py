@@ -7,7 +7,7 @@ from weekday_count import weekday_count
 
 start_date = dt.date(2018, 10, 1)
 end_date = dt.date(2018, 12, 31)
-
+directory = '/home/paul/PycharmProjects/ldf_wrangle/'
 prompt = 'X'
 
 while prompt not in ['y', 'Y', 'n', 'N']:
@@ -36,16 +36,16 @@ set_dict = {'Base Set.dbf': [0, 1, 2, 3],
             'Comparison set 7.dbf': [5],
             'Comparison set 8.dbf': [5]}
 
-files = list(filter(lambda x: x in set_dict.keys(), os.listdir()))
+files = list(filter(lambda x: x in set_dict.keys(), os.listdir(directory)))
 files.sort()
 
 for i in set_dict.keys():
-    dbf_file = Dbf5(i)
+    dbf_file = Dbf5(directory + i)
     set_dataframe = dbf_file.to_dataframe()
     set_dataframe.rename(columns={'count': 'Original'}, inplace=True)
     divisor = sum([w_count.get(j) for j in set_dict.get(i)])
     set_dataframe['count'] = set_dataframe['Original'] / divisor
-    set_dataframe.to_excel('auto_output - {sourcefile} - {start} - to - {end}.xlsx'.format(sourcefile=i[:-4],
+    set_dataframe.to_excel(directory + 'auto_output - {sourcefile} - {start} - to - {end}.xlsx'.format(sourcefile=i[:-4],
                                                                                           start=str(start_date),
                                                                                           end=str(end_date)),
                            index=False,
